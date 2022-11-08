@@ -31,7 +31,7 @@ void gradient(int H, int W, int choice) {
             //instead of 0 for bounds checking maybe assign 128
             if(choice == 0){
             //set to 0 if out of bounds
-            if((y-1) < 0 || (y+1) > H || (x-1) < 0 || (x+1) > W){
+            if((y-1) < 0 || (y+1) >= H || (x-1) < 0 || (x+1) >= W){
                 addedx = 128;
                 addedy = 128;
             }
