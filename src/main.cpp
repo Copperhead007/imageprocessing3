@@ -31,81 +31,32 @@ void gradient(int H, int W, int choice) {
             //instead of 0 for bounds checking maybe assign 128
             if(choice == 0){
             //set to 0 if out of bounds
-            if((y-1) < 0 || (y-1) >= H || (x-1) < 0 || (x-1) >= W){
-                ax = 128;
-                ay = 128;
+            if((y-1) < 0 || (y+1) > H || (x-1) < 0 || (x+1) > W){
+                addedx = 128;
+                addedy = 128;
             }
             else{
                 ax = buffer[y-1][x-1] * xfilter[0];
                 ay = buffer[y-1][x-1] * yfilter[0];
-            }
-            if((y-1) < 0 || (y-1) >= H || (x) < 0 || (x) >= W){
-                bx = 128;
-                by = 128;
-            }
-            else{
                 bx = buffer[y-1][x] * xfilter[1];
                 by = buffer[y-1][x] * yfilter[1];
-            }
-            if((y-1) < 0 || (y-1) >= H || (x+1) < 0 || (x+1) >= W){
-                cx = 128;
-                cy = 128;
-            }
-            else{
                 cx = buffer[y-1][x+1] * xfilter[2];
                 cy = buffer[y-1][x+1] * yfilter[2];
-            }
-            if((y) < 0 || (y) >= H || (x-1) < 0 || (x-1) >= W){
-                dx = 128;
-                dy = 128;
-            }
-            else{
                 dx = buffer[y][x-1] * xfilter[3];
                 dy = buffer[y][x-1] * yfilter[3];
-            }
-            if((y) < 0 || (y) >= H || (x) < 0 || (x) >= W){
-                ex = 128;
-                ey = 128;
-            }
-            else{
                 ex = buffer[y][x] * xfilter[4];
                 ey = buffer[y][x] * yfilter[4];
-            }
-            if((y) < 0 || (y) >= H || (x+1) < 0 || (x+1) >= W){
-                fx = 128;
-                fy = 128;
-            }
-            else{
                 fx = buffer[y][x+1] * xfilter[5];
                 fy = buffer[y][x+1] * yfilter[5];
-            }
-            if((y+1) < 0 || (y+1) >= H || (x-1) < 0 || (x-1) >= W){
-                gx = 128;
-                gy = 128;
-            }
-            else{
                 gx = buffer[y+1][x-1] * xfilter[6];
                 gy = buffer[y+1][x-1] * yfilter[6];
-            }
-            if((y+1) < 0 || (y+1) >= H || (x) < 0 || (x) >= W){
-                hx = 128;
-                hy = 128;
-            }
-            else{
                 hx = buffer[y+1][x] * xfilter[7];
                 hy = buffer[y+1][x] * yfilter[7];
-            }
-            if((y+1) < 0 || (y+1) >= H || (x+1) < 0 || (x+1) >= W){
-                ix = 128;
-                iy = 128;
-            }
-            else{
                 ix = buffer[y+1][x+1] * xfilter[8];
                 iy = buffer[y+1][x+1] * yfilter[8];
+                addedx = (ax + bx + cx + dx + ex + fx + gx + hx + ix) / 8 + 128;
+                addedy = (ay + by + cy + dy + ey + fy + gy + hy + iy) / 8 + 128;
             }
-            //get rid of 128
-            addedx = (ax + bx + cx + dx + ex + fx + gx + hx + ix) / 8 + 128;
-            addedy = (ay + by + cy + dy + ey + fy + gy + hy + iy) / 8 + 128;
             sqrx = pow(addedx,2);
             sqry = pow(addedy,2);
             grad = sqrt(sqrx + sqry);
@@ -182,7 +133,7 @@ void gradient(int H, int W, int choice) {
         }
     }
     //manually change output to filter choice raw
-    FILE * fp2 = fopen("beachgrad5.raw", "wb");
+    FILE * fp2 = fopen("beachgrad3.raw", "wb");
 
     fwrite(outimg, H*W, 1, fp2);
 
@@ -196,7 +147,7 @@ int main(){
     int imgH = 500;
     int imgW = 750;
 
-    gradient(imgH, imgW, 1);
+    gradient(imgH, imgW, 0);
     
     return 0;
 }
